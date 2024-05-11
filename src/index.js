@@ -2,7 +2,7 @@ import { createServer } from 'http'
 import { fileURLToPath, parse } from 'url'
 import { Worker } from 'worker_threads'
 import { dirname } from 'path'
-import { error } from 'console'
+import sharp from 'sharp'
 
 const currentFolder = dirname(fileURLToPath(import.meta.url))
 const workerFileName = 'worker.js'
@@ -29,7 +29,10 @@ async function handler(req, res) {
     const { query: { background, img } } = parse(req.url, true)
     const result = await joinImages({ background, img })
 
-    return res.end('joinImages OK')
+    res.writeHead(200, {
+      'Content-Type': 'text/html'
+    })
+    return res.end(`<img src="data:image/jpeg;base64,${result}"/>`)
   }
 
   return res.end('ok')
