@@ -1,8 +1,17 @@
+import { createServer } from 'http'
+import { parse } from 'url'
 
+async function handler(req, res) {
+  if (req.url.includes('joinImages')) {
+    const { query: { background, img } } = parse(req.url, true)
+    console.log({ background, img })
 
+    return res.end('joinImages OK')
+  }
 
-// https://upload.wikimedia.org/wikipedia/pt/d/df/Sonic_1991.png
-// https://mb.srb2.org/attachments/s3sonic_css_20240105165802-png.108841/
-//
-// background
-// https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAYYH1hrQdhvHUE42suisZf1PwMNnqyCtKpdWArn7VJQ&s
+  return res.end('ok')
+}
+
+createServer(handler)
+  .listen(3000, () => console.log('Running on port 3000'))
+
