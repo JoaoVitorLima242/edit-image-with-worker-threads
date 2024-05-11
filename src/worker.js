@@ -12,8 +12,15 @@ async function downloadFile(url) {
 
 async function onMessage({ img, background }) {
   const firstLayer = await sharp(await downloadFile(img)).toBuffer()
+  const secondLayer = await sharp(await downloadFile(background))
+    .composite(
+      [
+        { input: firstLayer, gravity: sharp.gravity.south }
+      ]
+    )
+    .toBuffer()
 
-  parentPort.postMessage(firstLayer.toString('base64'))
+  parentPort.postMessage(secondLayer.toString('base64'))
 }
 
 parentPort.on('message', onMessage)

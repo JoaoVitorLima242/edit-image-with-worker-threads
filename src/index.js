@@ -32,7 +32,7 @@ async function handler(req, res) {
     res.writeHead(200, {
       'Content-Type': 'text/html'
     })
-    return res.end(`<img src="data:image/jpeg;base64,${result}"/>`)
+    return res.end(`<img width="100%" height="100%" src="data:image/jpeg;base64,${result}"/>`)
   }
 
   return res.end('ok')
